@@ -141,6 +141,13 @@
   [[NYPLBookRegistry sharedRegistry] stopDelaySyncCommit];
 }
 
+- (void)didReceiveMemoryWarning
+{
+  [[NYPLBookRegistry sharedRegistry] save];
+  [[NYPLReaderSettings sharedSettings] save];
+  [super didReceiveMemoryWarning];
+}
+
 - (void)didReceiveSingleTap:(UIGestureRecognizer *const)gestureRecognizer {
   CGPoint p = [gestureRecognizer locationInView:self.view];
   CGFloat edgeOfScreenWidth = CGRectGetWidth(self.view.bounds) * EDGE_OF_SCREEN_POINT_FRACTION;
@@ -494,6 +501,13 @@ didEncounterCorruptionForBook:(__attribute__((unused)) NYPLBook *)book
   }
 
   [super viewDidAppear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+  [[NYPLBookRegistry sharedRegistry] save];
+  [[NYPLReaderSettings sharedSettings] save];
+  [super viewWillDisappear:animated];
 }
 
 - (void)willMoveToParentViewController:(__attribute__((unused)) UIViewController *)parent
